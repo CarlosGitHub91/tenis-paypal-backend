@@ -1,0 +1,13 @@
+{
+  "name": "tenis-paypal-backend",
+  "version": "1.0.0",
+  "main": "paypal_order.js",
+  "scripts": {
+    "start": "node paypal_order.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "axios": "^1.6.7",
+    "cors": "^2.8.5"
+  }
+}
