@@ -1,10 +1,13 @@
 const express = require('express');
 const axios = require('axios');
+const cors = require('cors');
 const app = express();
-app.use(express.json());
 
-const CLIENT = 'Ae9geemonbjqzMZ9AJnZzGHyHNM6nb7Pqn7XA83yMsaOD1bUOdN3Kv07LDMayTwdB2dWUomagLTqDLob';
-const SECRET = 'EEgCs7h8VdztHRvQVVdxy00cZSJLve360tn0hLJFJnRXQw8qYrTpmZCiqIuvGLoUcjd10M_Ohc3YJxqQ';
+app.use(express.json());
+app.use(cors());
+
+const CLIENT = process.env.CLIENT;
+const SECRET = process.env.SECRET;
 
 app.post('/create-paypal-order', async (req, res) => {
   try {
@@ -37,7 +40,7 @@ app.post('/create-paypal-order', async (req, res) => {
           },
         }],
         application_context: {
-          return_url: "https://your-app/callback/success", // pon tu URL real o dummy
+          return_url: "https://your-app/callback/success",
           cancel_url: "https://your-app/callback/cancel",
         },
       },
@@ -50,10 +53,10 @@ app.post('/create-paypal-order', async (req, res) => {
       ).href,
     });
   } catch (err) {
-    console.error(err);
+    console.error(err.response ? err.response.data : err);
     return res.status(500).json({error: 'PayPal order creation failed'});
   }
 });
 
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => console.log(`PayPal server listening on ${PORT}`));
